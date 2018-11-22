@@ -1,0 +1,25 @@
+extends layout.pug
+
+block content
+  h1.mt-5 Stocks
+    a.btn.btn-primary(href='./new/'+company.Symbol style='margin-left: 25px') Add Favourites
+  table.table
+    thead
+      tr
+        th(scope='col') Name
+        th(scope='col') Symbol
+        th(scope='col') LastPrice
+        th(scope='col') Change
+        th(scope='col') High
+        th(scope='col') Low
+        th(scope='col') Open
+    tbody
+        tr
+          td= company.Name
+          td= company.Symbol
+          td= company.LastPrice
+          td= company.Change
+          td= company.High
+          td= company.Low
+          td= company.Open
+

@@ -1,0 +1,9 @@
+extends layout.pug
+
+block content
+  h1.mt-5= title
+  form(method="POST")
+    .form-group
+      label(for='title') Company Name
+      input#name.form-control(type='text', placeholder='Example: Apple, Tesla', name="id", value=query.id)
+    button.btn.btn-primary(type='post') Find

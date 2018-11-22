@@ -1,0 +1,24 @@
+extends layout.pug
+
+block content
+  h1.mt-5 Stocks
+  table.table
+    thead
+      tr
+        th(scope='col') Name
+        th(scope='col') Symbol
+        th(scope='col') LastPrice
+        th(scope='col') Change
+        th(scope='col') High
+        th(scope='col') Low
+        th(scope='col') Open
+    tbody
+      each company in stocks
+        tr
+          td= company.Name
+          td= company.Symbol
+          td= company.LastPrice
+          td= company.Change
+          td= company.High
+          td= company.Low
+          td= company.Open
