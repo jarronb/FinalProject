@@ -1,5 +1,8 @@
 # FinalProject
-
+![](https://github.com/ITMD-562-Fall2018/FinalProject/blob/master/screenshots/signup.png)
+![](https://github.com/ITMD-562-Fall2018/FinalProject/blob/master/screenshots/login.png)
+![](https://github.com/ITMD-562-Fall2018/FinalProject/blob/master/screenshots/home.png)
+![](https://github.com/ITMD-562-Fall2018/FinalProject/blob/master/screenshots/history.png)
 ![](https://github.com/ITMD-562-Fall2018/FinalProject/blob/master/screenshots/screen1.png)
 ![](https://github.com/ITMD-562-Fall2018/FinalProject/blob/master/screenshots/screen2.png)
 ![](https://github.com/ITMD-562-Fall2018/FinalProject/blob/master/screenshots/screen3.png)
