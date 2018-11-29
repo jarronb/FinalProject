@@ -1,9 +1,10 @@
 extends layout.pug
 
 block content
-  h1.mt-5= title
-  form(method="POST")
-    .form-group
-      label(for='title') Company Name
-      input#name.form-control(type='text', placeholder='Example: Apple, Tesla', name="id", value=query.id)
-    button.btn.btn-primary(type='post') Find
+  h1.mt-5= Search
+  h2.mt-5= "Search by..."
+  a.btn.btn-primary(href='./api/lookup' style='margin-left: 0') Company
+  a.btn.btn-primary(href='./api/stock' style='margin-left: 10%') Symbol
+  h2.mt-5= "Sort by..."
+  a.btn.btn-primary(href='./api/lookup' style='margin-left: 0') "Closing Price"
+  a.btn.btn-primary(href='./api/stock' style='margin-left: 10%') "Gain"

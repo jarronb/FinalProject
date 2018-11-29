@@ -35,6 +35,19 @@ module.exports = function(app) {
         });
     });
 
+    /* retrieve search page */
+    /* search by... options */
+    app.get('/search', function(req, res) {
+      stockModel.find(function(err, result) {
+        if(err){
+          throw err;
+          console.log("error at /search");
+        } else {
+          res.render('search');
+        }
+      });
+    });
+
     app.post('/api/stock', function(req, res) {
     console.log(req.body);
         var query = {

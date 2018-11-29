@@ -174,6 +174,15 @@ app.get('/api/lookup', (req, res) => {
   console.log(req.body.id);
 
 });
+
+/* search page */
+app.get('/search', (req, res) => {
+  console.log("error?")
+  res.render('search', {title:"Search", query:{} });
+  console.log("rendering search");
+});
+
+
 app.get('/stock/new/:Symbol', (req, res) => {
 
 
