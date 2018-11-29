@@ -9,7 +9,6 @@ var MongoClient = require('mongodb').MongoClient
 var ObjectID = require('mongodb').ObjectID
 
 var request = require('request');
-
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'))
@@ -33,7 +32,8 @@ var stockSchema = new mongoose.Schema({
     DateCreated:       {
         type:       Date,
         default:    Date.now
-    }
+    },
+    user : String
 });
 var favSchema = new mongoose.Schema({
     Name:               String,
@@ -59,27 +59,90 @@ var lookupSchema = new mongoose.Schema({
   Exchange: String
 });
 
+var userSchema = new mongoose.Schema({
+  Name: String,
+  Password: String,
+  Email: String
+})
 var Stock = mongoose.model('Stock', stockSchema);
 var Company = mongoose.model('Company',lookupSchema);
 var Favourites = mongoose.model('Favourites', favSchema);
-
-var db = mongoose.connection;
+var User = mongoose.model('User',userSchema);
+var session="";
+var company={}
+ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
 app.get('/', (req, res) => {
-  Favourites.find({}, function(err, stocks) {
+  if(session===""){
+  res.render('login', {user:{}})
+}
+  else {
+    res.render('index', { title: "Welcome " +session, stocks:  company })
+  }
+  console.log(session);
+  console.log(req.body);
+});
+app.get('/api/signup', (req, res) => {
+  res.render('register', {})
+});
+app.get('/api/charts', (req, res) => {
+  res.render('interactivechart', {})
+});
+app.get('/api/logout', (req, res) => {
+  session="";
+  res.render('login', {user:{}})
+});
+app.post('/login', (req, res) => {
+  console.log(req.body.email);
+
+  User.findOne({"Email": req.body.email, "Password": req.body.password}, function(err, login) {
     if (err) {
       console.log(err)
       res.render('error', {})
     } else {
-      res.render('index', { stocks:  stocks })
+      if (login === null) {
+
+        res.render('error', { message: "Username or password incorrect" })
+      }else {
+      Favourites.find({}, function(err, stocks) {
+    if (err) {
+      console.log(err)
+      res.render('error', {})
+    } else {
+      session = login.Name;
+      res.render('index', { title: "Welcome " +login.Name ,  stocks:  stocks })
     }
   });
-  });
-app.get('/stocks/new', (req, res) => {
-    res.render('book-form', { title: "New Book", book: {} })
-  });
+  }
+}
+});
+});
+app.post('/register', (req, res) => {
+  //res.render('index', {})
+  console.log(req.body);
 
+      var newUser = new User(req.body);
+
+      newUser.save(function(err) {
+          if (err) {
+              throw err;
+          } else{
+
+           res.render('login',{user:req.body})
+          }
+      });
+    });
+  app.get('/home', (req, res) => {
+    Favourites.find({}, function(err, stocks) {
+      if (err) {
+        console.log(err)
+        res.render('error', {})
+      } else {
+        res.render('index', { stocks:  stocks })
+      }
+    });
+    });
 
 app.post('/api/stock', function(req, res) {
 
@@ -101,6 +164,7 @@ app.post('/api/stock', function(req, res) {
            // if it found stock there will not be a message field
            // if found stock then and only then save data to MongoDB
            var jsonBody = JSON.parse(body);
+           jsonBody.user =session;
            if (!jsonBody.Message) {
 
                var newStocks = new Stock(jsonBody);
@@ -222,7 +286,7 @@ app.get('/stock/:symbol', (req, res) => {
       console.log("inside");
       var jsonBody = JSON.parse(body);
       if (!jsonBody.Message) {
-
+          jsonBody.user=session;
           var newStocks = new Stock(jsonBody);
 
           newStocks.save(function(err) {

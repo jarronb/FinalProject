@@ -1,10 +1,13 @@
 extends layout.pug
 
 block content
+  h1.mt-5= title
   h1.mt-5 Favourites
     a.btn.btn-primary(href='./api/lookup' style='margin-left: 25px') LookUp
     a.btn.btn-primary(href='./api/stock' style='margin-left: 25px') FindStock
     a.btn.btn-primary(href='./api/history' style='margin-left: 25px') History
+    a.btn.btn-primary(href='./api/logout' style='margin-left: 25px') Logout
+    a.btn.btn-primary(href='./api/charts' style='margin-left: 25px') Interactive Chart
   table.table
     thead
       tr

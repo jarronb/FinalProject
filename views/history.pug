@@ -12,6 +12,8 @@ block content
         th(scope='col') High
         th(scope='col') Low
         th(scope='col') Open
+        th(scope='col') By
+        th(scope='col') Search Time
     tbody
       each company in stocks
         tr
@@ -22,3 +24,5 @@ block content
           td= company.High
           td= company.Low
           td= company.Open
+          td= company.user
+          td= company.DateCreated
