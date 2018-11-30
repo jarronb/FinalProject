@@ -81,6 +81,69 @@ app.get('/stocks/new', (req, res) => {
   });
 
 
+    /* search functions */
+    app.get('/search', (req, res) => {
+      res.render('search', {title:"Search", query:{} });
+      console.log("rendering search");
+    });
+
+    /* view the financial reports for a particular company */
+    /* with parameters for searching different ranges */
+    app.get('/stock/financials', (req, res) => {
+      res.render('Financials', {title:"financials", query:{} });
+      console.log("rendering full page financials");
+    });
+
+    /* show market stats for certain ranges */
+    app.get('/stock/market', (req, res) => {
+      res.render('market', {title:"market", query:{} });
+      console.log("rendering market stats");
+    });
+
+    /* view all supported stock symbols by order of ___ */
+    /* in order of gains in the past ___ */
+    /* in order of dividends in the past ___ */
+    /* in order of earnings in the past ____ */
+
+    /* show news on market */
+    app.get('/news', (req, res) => {
+      res.render('news', {title:"news", query:{} });
+      console.log("loading news");
+    });
+
+    app.get('/api/marketNews', function(req,  res) {
+      var query = {
+          'symbol': req.body.id
+      };
+
+      var options = {
+          url: 'https://api.iextrading.com/1.0/stock/aapl/news/last/5',
+          method: 'GET',
+          qs: query
+      };
+
+      request(options, function(err, request, body) {
+          // markitondemand return status 200 whether if found stock or not
+          // if it found stock there will not be a message field
+          // if found stock then and only then save data to MongoDB
+          var jsonBody = JSON.parse(body);
+          if (!jsonBody.Message) {
+
+              var newStocks = new Stock(jsonBody);
+
+              newStocks.save(function(err) {
+                  if (err) {
+                      throw err;
+                  } else{
+                    console.log(jsonBody);
+                    res.render('landingpage',{company:newStocks})
+                  }
+              });
+           //   res.render('landingpage',{company:newStocks})
+          }
+      });
+    });
+
 app.post('/api/stock', function(req, res) {
 
        var query = {
@@ -94,7 +157,7 @@ app.post('/api/stock', function(req, res) {
                'Content-Type': 'application/json'
            },
            qs: query
-       }
+       };
 
        request(options, function(err, request, body) {
            // markitondemand return status 200 whether if found stock or not
@@ -175,14 +238,6 @@ app.get('/api/lookup', (req, res) => {
 
 });
 
-/* search page */
-app.get('/search', (req, res) => {
-  console.log("error?")
-  res.render('search', {title:"Search", query:{} });
-  console.log("rendering search");
-});
-
-
 app.get('/stock/new/:Symbol', (req, res) => {
 
 
@@ -245,6 +300,7 @@ app.get('/stock/:symbol', (req, res) => {
         //  res.render('landingpage',{company:newStocks})
       }
   });
+
 });
 });
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
