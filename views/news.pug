@@ -5,8 +5,11 @@ block content
   a.btn.btn-primary(href='./search' style='margin-left: 10%') Search
   a.btn.btn-primary(href='./api/history' style='margin-left: 10%') History
   h2.mt-5 Market News
-
-
+  tbody
+    each Article in articles
+      p= headline
+      p= source
+      p= summary
 
   p.text-muted Search for News by company
   a.btn.btn-primary(href='./news' style='margin-left: 10%') News
