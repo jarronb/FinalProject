@@ -1,20 +1,20 @@
 extends layout.pug
 
 block content
-  h1.mt-5 News
+  h1.mt-5 Market News
   nav(style='padding:10px 0; margin-bottom:15px')
     a.btn.btn-primary(href='./search' style='margin-left: 0') Search
     a.btn.btn-primary(href='./api/history' style='margin-left: 10%') History
     a.btn.btn-primary(href='./' style='margin-left: 10%') Favorites
-  h2(style='') Market News
   tbody
     each articles in Article
-      h4.mt-5= articles.headline
-      h6.text-muted= articles.datetime
-      h6.text-muted= articles.source
-      h6.text-muted= articles.url
-      p= articles.summary
-
+      ul(style='list-style:none; padding-left:0;')
+        li.text-muted.mt-5(style='font-size:90%')= articles.datetime
+        li(style='font-size:28px; font-weight:600')= articles.headline
+        li.text-muted(style='float:left; margin-right:10px')= articles.source
+        li.text-muted(style='float:left; margin-right:10px;') •
+        a.li.text-muted(href='articles.url' style='text-decoration:underline; font-size:12px; line-height:26px; clear:left; white-space:nowrap')= articles.url
+        li(style='clear:left;')= articles.summary
 
 
   p.text-muted Search for News by company
