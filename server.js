@@ -59,9 +59,20 @@ var lookupSchema = new mongoose.Schema({
   Exchange: String
 });
 
+var marketNewsSchema = new mongoose.Schema({
+  datetime: String,
+  headline: String,
+  source: String,
+  url: String,
+  summary: String,
+  related: String,
+  Image: String
+});
+
 var Stock = mongoose.model('Stock', stockSchema);
 var Company = mongoose.model('Company',lookupSchema);
 var Favourites = mongoose.model('Favourites', favSchema);
+var Article = mongoose.model('MarketNews', marketNewsSchema);
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -123,24 +134,21 @@ app.get('/stocks/new', (req, res) => {
       };
 
       request(options, function(err, request, body) {
-          // markitondemand return status 200 whether if found stock or not
-          // if it found stock there will not be a message field
-          // if found stock then and only then save data to MongoDB
           var jsonBody = JSON.parse(body);
-          if (!jsonBody.Message) {
+          var articles = new Article(jsonBody);
 
-              var newStocks = new Stock(jsonBody);
-
-              newStocks.save(function(err) {
+          jsonBody.forEach(article => {
+            console.log(article.headline);
+              articles.save(function(err) {
                   if (err) {
                       throw err;
                   } else{
-                    console.log(jsonBody);
-                    res.render('landingpage',{company:newStocks})
+                    console.log(jsonBody.length);
+                    console.log(articles.length);
+                    res.render('news',{articles:Article});
                   }
               });
-           //   res.render('landingpage',{company:newStocks})
-          }
+          });
       });
     });
 
