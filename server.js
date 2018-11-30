@@ -128,7 +128,7 @@ app.get('/stocks/new', (req, res) => {
       };
 
       var options = {
-          url: 'https://api.iextrading.com/1.0/stock/aapl/news/last/5',
+          url: 'https://api.iextrading.com/1.0/stock/market/news/last/5',
           method: 'GET',
           qs: query
       };
