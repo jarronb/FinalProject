@@ -2,17 +2,17 @@ extends layout.pug
 
 block content
   h1.mt-5 News
-  a.btn.btn-primary(href='./search' style='margin-left: 10%') Search
-  a.btn.btn-primary(href='./api/history' style='margin-left: 10%') History
+  nav(style='padding:10px 0')
+    a.btn.btn-primary(href='./search' style='margin-left: 0') Search
+    a.btn.btn-primary(href='./api/history' style='margin-left: 10%') History
   h2(style='margin-top:0') Market News
   tbody
-    ul
-      each articles in Article
-        h4.mt-5= articles.headline
-        h6.text-muted= articles.datetime
-        h6.text-muted= articles.source
-        h6.text-muted= articles.url
-        p= articles.summary
+    each articles in Article
+      h4.mt-5= articles.headline
+      h6.text-muted= articles.datetime
+      h6.text-muted= articles.source
+      h6.text-muted= articles.url
+      p= articles.summary
 
 
 
