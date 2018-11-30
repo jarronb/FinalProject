@@ -12,8 +12,8 @@ var request = require('request');
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'))
-app.set('view engine', 'pug')
+app.use(express.static('public'));
+app.set('view engine', 'pug');
 app.set('views', __dirname + '/views');
 module.exports = app;
 
@@ -135,22 +135,18 @@ app.get('/stocks/new', (req, res) => {
 
       request(options, function(err, request, body) {
           var jsonBody = JSON.parse(body);
-          var articles = new Article(jsonBody);
-
-          jsonBody.forEach(article => {
-            console.log(article.headline);
-              articles.save(function(err) {
-                  if (err) {
-                      throw err;
-                  } else{
-                    console.log(jsonBody.length);
-                    console.log(articles.length);
-                    res.render('news',{articles:Article});
-                  }
-              });
+          var articles = jsonBody.map(function(data) {
+            return new Article(data);
           });
+
+          console.log(jsonBody.length);
+          console.log(articles.length);
+
+          console.log({Article:articles});
+
+          res.render('news', {Article:articles});
       });
-    });
+  });
 
 app.post('/api/stock', function(req, res) {
 
