@@ -2,10 +2,11 @@ extends layout.pug
 
 block content
   h1.mt-5 News
-  nav(style='padding:10px 0')
+  nav(style='padding:10px 0; margin-bottom:15px')
     a.btn.btn-primary(href='./search' style='margin-left: 0') Search
     a.btn.btn-primary(href='./api/history' style='margin-left: 10%') History
-  h2(style='margin-top:0') Market News
+    a.btn.btn-primary(href='./' style='margin-left: 10%') Favorites
+  h2(style='') Market News
   tbody
     each articles in Article
       h4.mt-5= articles.headline
