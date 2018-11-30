@@ -35,11 +35,6 @@ module.exports = function(app) {
         });
     });
 
-    /* retrieve search page */
-    /* search by... options */
-    app.get('/search', function(req, res) {
-    });
-
     app.post('/api/stock', function(req, res) {
     console.log(req.body);
         var query = {

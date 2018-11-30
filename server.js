@@ -98,6 +98,11 @@ app.get('/stocks/new', (req, res) => {
       console.log("rendering search");
     });
 
+    app.get('/api/search', (req, res) => {
+      res.render('search', {title:"Search", query:{} });
+      console.log("rendering search");
+    });
+
     /* view the financial reports for a particular company */
     /* with parameters for searching different ranges */
     app.get('/stock/financials', (req, res) => {
@@ -122,13 +127,41 @@ app.get('/stocks/new', (req, res) => {
       console.log("loading news");
     });
 
+    /* get news articles for entire market  */
     app.get('/api/marketNews', function(req,  res) {
       var query = {
           'symbol': req.body.id
       };
 
       var options = {
-          url: 'https://api.iextrading.com/1.0/stock/market/news/last/5',
+          url: 'https://api.iextrading.com/1.0/stock/market/news/last/10',
+          method: 'GET',
+          qs: query
+      };
+
+      request(options, function(err, request, body) {
+          var jsonBody = JSON.parse(body);
+          var articles = jsonBody.map(function(data) {
+            return new Article(data);
+          });
+
+          console.log(jsonBody.length);
+          console.log(articles.length);
+
+          res.render('news', {Article:articles});
+      });
+    });
+
+    /*  */
+
+    /* show news for a single market */
+    app.get(' ', function(req,  res) {
+      var query = {
+          'symbol': req.body.id
+      };
+
+      var options = {
+          url: 'https://api.iextrading.com/1.0/stock/  /news/last/5',
           method: 'GET',
           qs: query
       };
@@ -146,7 +179,7 @@ app.get('/stocks/new', (req, res) => {
 
           res.render('news', {Article:articles});
       });
-  });
+    });
 
 app.post('/api/stock', function(req, res) {
 
