@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1.mt-5 Currencies
+  nav.mt-4.navbar-left
+    a.btn.btn-primary.mb-3.mr-3(href='./search') Search
+
+  section#Currencies
+    h2.mt-5
+    form#search(method="POST" action="/api/coNews", name="search")
+      .form-group
+        input#curOne.form-control(type="text", placeholder='USD')
+        input#curTwo.form-control(type="text", placeholder='BTC')
+        button.btn.btn-default(type='button') View

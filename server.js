@@ -86,7 +86,7 @@ var company={}
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
-app.get('/', (req, res) => {
+app.get('/', (req, res) => {/*
   if(session===""){
   res.render('login', {user:{}})
 }
@@ -94,8 +94,11 @@ app.get('/', (req, res) => {
     res.render('index', { title: "Welcome " +session, stocks:  company })
   }
   console.log(session);
-  console.log(req.body);
+  console.log(req.body);*/
+  res.render('index', {stocks:company})
 });
+
+/*
 app.get('/api/signup', (req, res) => {
   res.render('register', {})
 });
@@ -156,6 +159,7 @@ app.post('/register', (req, res) => {
       }
     });
     });
+    */
 
     /* search functions */
     app.get('/search', (req, res) => {
@@ -255,6 +259,13 @@ app.post('/register', (req, res) => {
         res.render('news', {Article:articles});
       });
     });
+
+  app.get('/api/currencies', function(req,res) {
+
+    res.render('currencies')
+
+  });
+
 
 app.post('/api/stock', function(req, res) {
 
