@@ -66,7 +66,7 @@ var marketNewsSchema = new mongoose.Schema({
   url: String,
   summary: String,
   related: String,
-  Image: String
+  image: String
 });
 
 var Stock = mongoose.model('Stock', stockSchema);
@@ -144,7 +144,6 @@ app.get('/stocks/new', (req, res) => {
           var articles = jsonBody.map(function(data) {
             return new Article(data);
           });
-
           console.log(jsonBody.length);
           console.log(articles.length);
 
@@ -152,32 +151,43 @@ app.get('/stocks/new', (req, res) => {
       });
     });
 
-    /*  */
+    app.post('api/marketNews', function(req, res) {
+
+    });
 
     /* show news for a single market */
-    app.get(' ', function(req,  res) {
+    app.post('/api/coNews/', function(req,  res) {
       var query = {
-          'symbol': req.body.id
+        "input" : req.body.id
       };
+
+      console.log("query: " + query)
+      console.log(query.toString())
+      console.log("qin: " + query.input);
+
+      var thisCompany = req.body.id;
+      console.log(thisCompany);
 
       var options = {
-          url: 'https://api.iextrading.com/1.0/stock/  /news/last/5',
-          method: 'GET',
-          qs: query
+        url: 'https://api.iextrading.com/1.0/stock/' + thisCompany + '/news/last/20',
+        method: 'GET'
       };
 
+      console.log(options)
+
       request(options, function(err, request, body) {
-          var jsonBody = JSON.parse(body);
-          var articles = jsonBody.map(function(data) {
-            return new Article(data);
-          });
+        console.log("BODY: " + body);
 
-          console.log(jsonBody.length);
-          console.log(articles.length);
+        var jsonBody = JSON.parse(body);
+        console.log(jsonBody);
 
-          console.log({Article:articles});
+        var articles = jsonBody.map(function(data) {
+          console.log(articles);
+          return new Article(data);
+        });
 
-          res.render('news', {Article:articles});
+        console.log("ARTICLES: " + {Article:articles});
+        res.render('news', {Article:articles});
       });
     });
 

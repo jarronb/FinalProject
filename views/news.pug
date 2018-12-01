@@ -2,20 +2,25 @@ extends layout.pug
 
 block content
   h1.mt-5 Market News
-  nav(style='padding:10px 0; margin-bottom:15px')
-    a.btn.btn-primary(href='./search' style='margin-left: 0') Search
-    a.btn.btn-primary(href='./api/history' style='margin-left: 10%') History
-    a.btn.btn-primary(href='./' style='margin-left: 10%') Favorites
+  nav.mt-4.navbar-left
+    a.btn.btn-primary.mb-3(href='./search' style='margin-right: 10%') Search
+    a.btn.btn-primary.mb-3(href='./api/history' style='margin-right:10%') History
+    a.btn.btn-primary.mb-3(href='./' style='margin-right: 10%') Favorites
+    a.btn.btn-primary.mb-3(href='#byCompany' style='margin-right: 10%') Search news by company
   tbody
     each articles in Article
       ul(style='list-style:none; padding-left:0;')
-        li.text-muted.mt-5(style='font-size:90%')= articles.datetime
+        li.text-muted.mt-5.small= articles.datetime
         li(style='font-size:28px; font-weight:600')= articles.headline
-        li.text-muted(style='float:left; margin-right:10px')= articles.source
-        li.text-muted(style='float:left; margin-right:10px;') •
-        a.li.text-muted(href='articles.url' style='text-decoration:underline; font-size:12px; line-height:26px; clear:left; white-space:nowrap')= articles.url
+        li.text-muted.small(style='float:left; margin-right:10px')= articles.source
+        li.text-muted.small(style='float:left; margin-right:10px') •
+        a.li.text-muted.small(href='articles.url' style='text-decoration:underline; clear:left; white-space:nowrap;')= articles.url
         li(style='clear:left;')= articles.summary
 
 
-  p.text-muted Search for News by company
-  a.btn.btn-primary(href='./news' style='margin-left: 10%') News
+  section.mt-5#byCompany
+    h4 Search for news by company
+    form#search(method="POST" action="/api/coNews", name="search")
+      .form-group
+        input#name.form-control(type="text", placeholder='aapl, abc', name='id')
+        button.btn.btn.mt-2(type='submit') View
