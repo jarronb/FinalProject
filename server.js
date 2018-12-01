@@ -11,8 +11,8 @@ var ObjectID = require('mongodb').ObjectID
 var request = require('request');
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'))
-app.set('view engine', 'pug')
+app.use(express.static('public'));
+app.set('view engine', 'pug');
 app.set('views', __dirname + '/views');
 module.exports = app;
 
@@ -59,6 +59,16 @@ var lookupSchema = new mongoose.Schema({
   Exchange: String
 });
 
+var marketNewsSchema = new mongoose.Schema({
+  datetime: String,
+  headline: String,
+  source: String,
+  url: String,
+  summary: String,
+  related: String,
+  image: String
+});
+
 var userSchema = new mongoose.Schema({
   Name: String,
   Password: String,
@@ -68,9 +78,12 @@ var Stock = mongoose.model('Stock', stockSchema);
 var Company = mongoose.model('Company',lookupSchema);
 var Favourites = mongoose.model('Favourites', favSchema);
 var User = mongoose.model('User',userSchema);
+var Article = mongoose.model('MarketNews', marketNewsSchema);
+
 var session="";
 var company={}
- var db = mongoose.connection;
+
+var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
 app.get('/', (req, res) => {
@@ -144,6 +157,105 @@ app.post('/register', (req, res) => {
     });
     });
 
+    /* search functions */
+    app.get('/search', (req, res) => {
+      res.render('search', {title:"Search", query:{} });
+      console.log("rendering search");
+    });
+
+    app.get('/api/search', (req, res) => {
+      res.render('search', {title:"Search", query:{} });
+      console.log("rendering search");
+    });
+
+    /* view the financial reports for a particular company */
+    /* with parameters for searching different ranges */
+    app.get('/stock/financials', (req, res) => {
+      res.render('Financials', {title:"financials", query:{} });
+      console.log("rendering full page financials");
+    });
+
+    /* show market stats for certain ranges */
+    app.get('/stock/market', (req, res) => {
+      res.render('market', {title:"market", query:{} });
+      console.log("rendering market stats");
+    });
+
+    /* view all supported stock symbols by order of ___ */
+    /* in order of gains in the past ___ */
+    /* in order of dividends in the past ___ */
+    /* in order of earnings in the past ____ */
+
+    /* show news on market */
+    app.get('/news', (req, res) => {
+      res.render('news', {title:"news", query:{} });
+      console.log("loading news");
+    });
+
+    /* get news articles for entire market  */
+    app.get('/api/marketNews', function(req,  res) {
+      var query = {
+          'symbol': req.body.id
+      };
+
+      var options = {
+          url: 'https://api.iextrading.com/1.0/stock/market/news/last/10',
+          method: 'GET',
+          qs: query
+      };
+
+      request(options, function(err, request, body) {
+          var jsonBody = JSON.parse(body);
+          var articles = jsonBody.map(function(data) {
+            return new Article(data);
+          });
+          console.log(jsonBody.length);
+          console.log(articles.length);
+
+          res.render('news', {Article:articles});
+      });
+    });
+
+    app.post('api/marketNews', function(req, res) {
+
+    });
+
+    /* show news for a single market */
+    app.post('/api/coNews/', function(req,  res) {
+      var query = {
+        "input" : req.body.id
+      };
+
+      console.log("query: " + query)
+      console.log(query.toString())
+      console.log("qin: " + query.input);
+
+      var thisCompany = req.body.id;
+      console.log(thisCompany);
+
+      var options = {
+        url: 'https://api.iextrading.com/1.0/stock/' + thisCompany + '/news/last/20',
+        method: 'GET'
+      };
+
+      console.log(options)
+
+      request(options, function(err, request, body) {
+        console.log("BODY: " + body);
+
+        var jsonBody = JSON.parse(body);
+        console.log(jsonBody);
+
+        var articles = jsonBody.map(function(data) {
+          console.log(articles);
+          return new Article(data);
+        });
+
+        console.log("ARTICLES: " + {Article:articles});
+        res.render('news', {Article:articles});
+      });
+    });
+
 app.post('/api/stock', function(req, res) {
 
        var query = {
@@ -157,7 +269,7 @@ app.post('/api/stock', function(req, res) {
                'Content-Type': 'application/json'
            },
            qs: query
-       }
+       };
 
        request(options, function(err, request, body) {
            // markitondemand return status 200 whether if found stock or not
@@ -238,6 +350,7 @@ app.get('/api/lookup', (req, res) => {
   console.log(req.body.id);
 
 });
+
 app.get('/stock/new/:Symbol', (req, res) => {
 
 
@@ -300,6 +413,7 @@ app.get('/stock/:symbol', (req, res) => {
         //  res.render('landingpage',{company:newStocks})
       }
   });
+
 });
 });
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
