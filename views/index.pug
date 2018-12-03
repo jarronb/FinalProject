@@ -3,11 +3,12 @@ extends layout.pug
 block content
   h1.mt-5 Favorites
   nav(style='padding:10px 0')
-    a.btn.btn-primary(href='./search' style='margin-left: 0; margin-bottom:15px') Search
-    a.btn.btn-primary(href='./api/history' style='margin-left: 10%; margin-bottom:15px') History
-    a.btn.btn-primary(href='./api/marketNews' style='margin-left: 10%; margin-bottom:15px') News
-    a.btn.btn-primary(href='./api/charts' style='margin-left: 10%; margin-bottom:15px') Interactive Chart
-    a.btn.btn-primary(href='./api/logout' style='margin-left: 10%; margin-bottom:15px') Logout
+    a.btn.btn-primary.mb-3(href='./search' style='margin-left: 0; margin-bottom:15px') Search
+    a.btn.btn-primary.ml-5.mb-3(href='./api/history') History
+    a.btn.btn-primary.ml-5.mb-3(href='./api/marketNews') News
+    a.btn.btn-primary.ml-5.mb-3(href='./api/logout') Logout
+
+    a.btn.btn-secondary.btn-sm.mb-2(href='./api/charts') Interactive Chart
   table.table
     thead
       tr
