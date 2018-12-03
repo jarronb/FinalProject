@@ -1,0 +1,43 @@
+extends layout.pug
+
+block content
+  h1.mt-5= "Market Performers"
+  h2.mt-2= title
+  section
+    h3.mt-5= "View: "
+      a.btn.btn-primary.mr-4.mb-3.btn-sm(href='/api/markets/gain') Gainers
+      a.btn.btn-primary.mr-4.mb-3.btn-sm(href='/api/markets/lose') Losers
+      a.btn.btn-primary.mr-4.mb-3.btn-sm(href='/api/markets/active') In Focus
+
+  -var n=1;
+  section
+  table.table.table-sm
+    thead.thead-light
+      tr
+        th(scope='col') #
+        th(scope='col') Symbol
+        th(scope='col') Company
+        th(scope='col') Open
+        th(scope='col') Close
+        th(scope='col') High
+        th(scope='col') Low
+        th(scope='col') Change
+        th(scope='col') Market Cap
+        th(scope='col' style='white-space:nowrap') 52-week High
+        th(scope='col' style='white-space:nowrap') 52-week Low
+        th(scope='col') YTD Change
+    tbody
+      each company in marketCompany
+        tr
+          th(scope="row")= n++
+          td= company.symbol
+          td= company.companyName
+          td= company.open
+          td= company.close
+          td= company.high
+          td= company.low
+          td= company.change
+          td= company.marketCap
+          td= company.week52High
+          td= company.week52Low
+          td= company.ytdChange

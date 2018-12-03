@@ -19,7 +19,7 @@ block content
 
   section.mt-5#byCompany
     h4 Search for news by company
-    form#search(method="POST" action="/api/coNews", name="search")
+    form.form-inline#search(method="POST" action="/api/coNews", name="search")
       .form-group
         input#name.form-control(type="text", placeholder='aapl, abc', name='id')
-        button.btn.btn-default(type='button') View
+      button.btn.btn-default.ml-3(type='button') View
