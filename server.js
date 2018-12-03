@@ -77,7 +77,7 @@ var userSchema = new mongoose.Schema({
 
 var marketCompanySchema = new mongoose.Schema({
   symbol: String,
-  name: String,
+  companyName: String,
   exchangeMarket: String,
   sector: String,
   calcPrice: String,
@@ -297,45 +297,45 @@ app.post('/register', (req, res) => {
       });
     });
 
-app.get('/api/markets', function(req, res) {
-  res.render('markets');
-});
-
-app.get('/api/markets/gain', function(req, res) {
-  /* top gaining */
-  var options = {
-      url: 'https://api.iextrading.com/1.0/stock/market/list/gainers',
-      method: 'GET'
-  };
-
-  request(options, function(err, request, body) {
-      var jsonBody = JSON.parse(body);
-      var company = jsonBody.map(function(data) {
-        return new marketCompany(data);
-      });
-      console.log(company.length);
-
-      res.render('markets', {marketCompany:company});
+  app.get('/api/markets', function(req, res) {
+    res.render('markets');
   });
-});
 
-app.get('/api/markets/lose', function(req, res) {
-  /* top gaining */
-  var options = {
-      url: 'https://api.iextrading.com/1.0/stock/market/list/losers',
-      method: 'GET'
-  };
+  app.get('/api/markets/gain', function(req, res) {
+    /* top gaining */
+    var options = {
+        url: 'https://api.iextrading.com/1.0/stock/market/list/gainers',
+        method: 'GET'
+    };
 
-  request(options, function(err, request, body) {
-      var jsonBody = JSON.parse(body);
-      var company = jsonBody.map(function(data) {
-        return new marketCompany(data);
-      });
-      console.log(company.length);
+    request(options, function(err, request, body) {
+        var jsonBody = JSON.parse(body);
+        var company = jsonBody.map(function(data) {
+          return new marketCompany(data);
+        });
+        console.log(company.length);
 
-      res.render('markets', {marketCompany:company});
+        res.render('markets', {marketCompany:company, title:"Top Market Gainers"});
+    });
   });
-});
+
+  app.get('/api/markets/lose', function(req, res) {
+    /* top gaining */
+    var options = {
+        url: 'https://api.iextrading.com/1.0/stock/market/list/losers',
+        method: 'GET'
+    };
+
+    request(options, function(err, request, body) {
+        var jsonBody = JSON.parse(body);
+        var company = jsonBody.map(function(data) {
+          return new marketCompany(data);
+        });
+        console.log(company.length);
+
+        res.render('markets', {marketCompany:company});
+    });
+  });
 
 app.post('/api/stock', function(req, res) {
 
