@@ -11,3 +11,9 @@ block content
       .form-group
         input.form-control(type="text", placeholder='BTC', name="id")
       button.btn.btn-default.ml-3(type='submit') Search
+
+  section
+    h3.mt-3.mb-4 Daily
+    each result in Exchange
+      ul(style='list-style:none; padding-left:0;')
+        

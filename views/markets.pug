@@ -1,0 +1,29 @@
+extends layout.pug
+
+block content
+  h1.mt-5= "Market Performers"
+  h2.mt-5= "View: "
+  section(style='padding:10px 0')
+    a.btn.btn-primary.mr-4.mb-3(href='/api/markets/gain') Gainers
+    a.btn.btn-primary.mr-4.mb-3(href='/api/markets/lose') Losers
+
+  section
+  table.table
+    thead.thead-light
+      tr
+        th(scope='col') #
+        th(scope='col') Symbol
+        th(scope='col') Company
+        th(scope='col') Open
+        th(scope='col') Close
+        th(scope='col') High
+        th(scope='col') Low
+        th(scope='col') Change
+    tbody
+      each company in marketCompany
+        tr
+          th(scope="row") 1
+          td= company.symbol
+          td= company.name
+          td= company.open
+          td= company.close

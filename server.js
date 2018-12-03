@@ -73,12 +73,57 @@ var userSchema = new mongoose.Schema({
   Name: String,
   Password: String,
   Email: String
-})
+});
+
+var marketCompanySchema = new mongoose.Schema({
+  symbol: String,
+  name: String,
+  exchangeMarket: String,
+  sector: String,
+  calcPrice: String,
+  open: Number,
+  openTime: Number,
+  close: Number,
+  closeTime: Number,
+  high: Number,
+  low: Number,
+  latestPrice: Number,
+  latestSource: String,
+  latestTime: String,
+  latestUpdate: Number,
+  latestVolume: Number,
+  iexRealTimePrice: Boolean,
+  iexRealTimeStatus: Boolean,
+  iexLastUpdated: Boolean,
+  delayedPrice: Number,
+  delayedPriceTime: Number,
+  extendedPrice:	Number,
+  extendedChange: Number,
+  extendedChangePercent: Number,
+  extendedPriceTime: Number,
+  previousClose: Number,
+  change: Number,
+  changePercent: Number,
+  iexMarketPercent: Number,
+  iexVolume: Number,
+  avgTotalVolume: Number,
+  iexBidPrice: Boolean,
+  iexBidSize: Boolean,
+  iexAskPrice: Boolean,
+  iexAskSize: Boolean,
+  marketCap: Number,
+  peRatio: Boolean,
+  week52High: Number,
+  week52Low: Number,
+  ytdChange: Number,
+});
+
 var Stock = mongoose.model('Stock', stockSchema);
 var Company = mongoose.model('Company',lookupSchema);
 var Favourites = mongoose.model('Favourites', favSchema);
 var User = mongoose.model('User',userSchema);
 var Article = mongoose.model('MarketNews', marketNewsSchema);
+var marketCompany = mongoose.model('marketCompany', marketCompanySchema);
 
 var session="";
 var company={}
@@ -220,38 +265,30 @@ app.post('/register', (req, res) => {
       });
     });
 
-    app.post('api/marketNews', function(req, res) {
-
-    });
-
     /* show news for a single market */
     app.post('/api/coNews/', function(req,  res) {
       var query = {
         "input" : req.body.id
       };
 
-      console.log("query: " + query)
-      console.log(query.toString())
-      console.log("qin: " + query.input);
-
       var thisCompany = req.body.id;
-      console.log(thisCompany);
+    //  console.log(thisCompany);
 
       var options = {
         url: 'https://api.iextrading.com/1.0/stock/' + thisCompany + '/news/last/20',
         method: 'GET'
       };
 
-      console.log(options)
+      //console.log(options)
 
       request(options, function(err, request, body) {
-        console.log("BODY: " + body);
+      //  console.log("BODY: " + body);
 
         var jsonBody = JSON.parse(body);
-        console.log(jsonBody);
+      //  console.log(jsonBody);
 
         var articles = jsonBody.map(function(data) {
-          console.log(articles);
+      //    console.log(articles);
           return new Article(data);
         });
 
@@ -260,12 +297,45 @@ app.post('/register', (req, res) => {
       });
     });
 
-  app.get('/api/currencies', function(req,res) {
+app.get('/api/markets', function(req, res) {
+  res.render('markets');
+});
 
-    res.render('currencies')
+app.get('/api/markets/gain', function(req, res) {
+  /* top gaining */
+  var options = {
+      url: 'https://api.iextrading.com/1.0/stock/market/list/gainers',
+      method: 'GET'
+  };
 
+  request(options, function(err, request, body) {
+      var jsonBody = JSON.parse(body);
+      var company = jsonBody.map(function(data) {
+        return new marketCompany(data);
+      });
+      console.log(company.length);
+
+      res.render('markets', {marketCompany:company});
   });
+});
 
+app.get('/api/markets/lose', function(req, res) {
+  /* top gaining */
+  var options = {
+      url: 'https://api.iextrading.com/1.0/stock/market/list/losers',
+      method: 'GET'
+  };
+
+  request(options, function(err, request, body) {
+      var jsonBody = JSON.parse(body);
+      var company = jsonBody.map(function(data) {
+        return new marketCompany(data);
+      });
+      console.log(company.length);
+
+      res.render('markets', {marketCompany:company});
+  });
+});
 
 app.post('/api/stock', function(req, res) {
 
