@@ -35,6 +35,7 @@ var stockSchema = new mongoose.Schema({
     },
     user : String
 });
+
 var favSchema = new mongoose.Schema({
     Name:               String,
     Symbol:             String,
