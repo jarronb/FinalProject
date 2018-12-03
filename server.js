@@ -333,7 +333,25 @@ app.post('/register', (req, res) => {
         });
         console.log(company.length);
 
-        res.render('markets', {marketCompany:company});
+        res.render('markets', {marketCompany:company, title:"Losers"});
+    });
+  });
+
+  app.get('/api/markets/focus', function(req, res) {
+    /* top gaining */
+    var options = {
+        url: 'https://api.iextrading.com/1.0/stock/market/list/infocus',
+        method: 'GET'
+    };
+
+    request(options, function(err, request, body) {
+        var jsonBody = JSON.parse(body);
+        var company = jsonBody.map(function(data) {
+          return new marketCompany(data);
+        });
+        console.log(company.length);
+
+        res.render('markets', {marketCompany:company, title:"In Focus"});
     });
   });
 
