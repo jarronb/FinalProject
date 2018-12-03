@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "npx nodemon server.js",
     "test": "NODE_ENV=test mocha test/**/*.js"
   },
   "keywords": [],
@@ -19,5 +19,8 @@
     "mongoose": "^5.3.14",
     "pug": "^2.0.3",
     "request": "^2.69.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.7"
   }
 }
