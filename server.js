@@ -131,7 +131,7 @@ var company={}
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
-app.get('/', (req, res) => {/*
+app.get('/', (req, res) => {
   if(session===""){
   res.render('login', {user:{}})
 }
@@ -139,11 +139,10 @@ app.get('/', (req, res) => {/*
     res.render('index', { title: "Welcome " +session, stocks:  company })
   }
   console.log(session);
-  console.log(req.body);*/
+  console.log(req.body);
   res.render('index', {stocks:company})
 });
 
-/*
 app.get('/api/signup', (req, res) => {
   res.render('register', {})
 });
@@ -204,7 +203,6 @@ app.post('/register', (req, res) => {
       }
     });
     });
-    */
 
     /* search functions */
     app.get('/search', (req, res) => {
@@ -216,24 +214,6 @@ app.post('/register', (req, res) => {
       res.render('search', {title:"Search", query:{} });
       console.log("rendering search");
     });
-
-    /* view the financial reports for a particular company */
-    /* with parameters for searching different ranges */
-    app.get('/stock/financials', (req, res) => {
-      res.render('Financials', {title:"financials", query:{} });
-      console.log("rendering full page financials");
-    });
-
-    /* show market stats for certain ranges */
-    app.get('/stock/market', (req, res) => {
-      res.render('market', {title:"market", query:{} });
-      console.log("rendering market stats");
-    });
-
-    /* view all supported stock symbols by order of ___ */
-    /* in order of gains in the past ___ */
-    /* in order of dividends in the past ___ */
-    /* in order of earnings in the past ____ */
 
     /* show news on market */
     app.get('/news', (req, res) => {
@@ -320,7 +300,7 @@ app.post('/register', (req, res) => {
   });
 
   app.get('/api/markets/lose', function(req, res) {
-    /* top gaining */
+    /* top losing */
     var options = {
         url: 'https://api.iextrading.com/1.0/stock/market/list/losers',
         method: 'GET'
@@ -338,7 +318,7 @@ app.post('/register', (req, res) => {
   });
 
   app.get('/api/markets/focus', function(req, res) {
-    /* top gaining */
+    /* focus */
     var options = {
         url: 'https://api.iextrading.com/1.0/stock/market/list/infocus',
         method: 'GET'
@@ -392,6 +372,7 @@ app.post('/api/stock', function(req, res) {
            }
        });
    });
+
    app.post('/api/lookup', function(req, res) {
 
           var query = {
@@ -427,13 +408,14 @@ app.post('/api/stock', function(req, res) {
                   //remove next line and uncomment above
                   //res.render('lookup-detail',{query:jsonBody})
               }
-          });
+        });
       });
+
 app.get('/api/stock', (req, res) => {
   res.render('find-stock', { title: "Find Stock", company: {} })
   console.log(req.body.id);
-
 });
+
 app.get('/api/history', (req, res) => {
   Stock.find({}, function(err, stocks) {
     if (err) {
@@ -443,7 +425,8 @@ app.get('/api/history', (req, res) => {
       res.render('history', { stocks:  stocks })
     }
   });
-  });
+});
+
 app.get('/api/lookup', (req, res) => {
   res.render('look-up', { title: "Look Up", query: {} })
   console.log(req.body.id);
@@ -451,8 +434,6 @@ app.get('/api/lookup', (req, res) => {
 });
 
 app.get('/stock/new/:Symbol', (req, res) => {
-
-
   Stock.findOne({"symbol": req.params.Symbol}, function(err, stocks) {
     if (err) {
       console.log(err)
@@ -477,6 +458,7 @@ app.get('/stock/new/:Symbol', (req, res) => {
     }
   });
 });
+
 app.get('/stock/:symbol', (req, res) => {
   var query = {
       'symbol': req.params.symbol
@@ -511,8 +493,8 @@ app.get('/stock/:symbol', (req, res) => {
           });
         //  res.render('landingpage',{company:newStocks})
       }
+    });
   });
+});
 
-});
-});
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
