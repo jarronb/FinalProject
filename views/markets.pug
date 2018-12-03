@@ -2,13 +2,15 @@ extends layout.pug
 
 block content
   h1.mt-5= "Market Performers"
-  h2.mt-5= "View: "
-  section(style='padding:10px 0')
-    a.btn.btn-primary.mr-4.mb-3(href='/api/markets/gain') Gainers
-    a.btn.btn-primary.mr-4.mb-3(href='/api/markets/lose') Losers
-
+  h2.mt-2= title
   section
-  table.table
+    h3.mt-5= "View: "
+      a.btn.btn-primary.mr-4.mb-3.btn-sm(href='/api/markets/gain') Gainers
+      a.btn.btn-primary.mr-4.mb-3.btn-sm(href='/api/markets/lose') Losers
+
+  -var n=1;
+  section
+  table.table.table-sm
     thead.thead-light
       tr
         th(scope='col') #
@@ -19,11 +21,22 @@ block content
         th(scope='col') High
         th(scope='col') Low
         th(scope='col') Change
+        th(scope='col') Market Cap
+        th(scope='col') 52-week High
+        th(scope='col') 52-week Low
+        th(scope='col') YTD Change
     tbody
       each company in marketCompany
         tr
-          th(scope="row") 1
+          th(scope="row")= n++
           td= company.symbol
-          td= company.name
+          td= company.companyName
           td= company.open
           td= company.close
+          td= company.high
+          td= company.low
+          td= company.change
+          td= company.marketCap
+          td= company.week52High
+          td= company.week52Low
+          td= company.ytdChange
