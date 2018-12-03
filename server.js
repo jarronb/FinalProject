@@ -28,115 +28,12 @@ app.set("view engine", "pug");
 app.set("views", __dirname + "/views");
 module.exports = app;
 
-var stockSchema = new mongoose.Schema({
-  Name: String,
-  Symbol: String,
-  LastPrice: Number,
-  Change: Number,
-  ChangePercent: Number,
-  MarketCap: Number,
-  Volume: Number,
-  ChangeYTD: Number,
-  ChangePercentYTD: Number,
-  High: Number,
-  Low: Number,
-  Open: Number,
-  DateCreated: {
-    type: Date,
-    default: Date.now
-  },
-  user: String
-});
-
-var favSchema = new mongoose.Schema({
-  Name: String,
-  Symbol: String,
-  LastPrice: Number,
-  Change: Number,
-  ChangePercent: Number,
-  MarketCap: Number,
-  Volume: Number,
-  ChangeYTD: Number,
-  ChangePercentYTD: Number,
-  High: Number,
-  Low: Number,
-  Open: Number,
-  DateCreated: {
-    type: Date,
-    default: Date.now
-  }
-});
-var lookupSchema = new mongoose.Schema({
-  Name: String,
-  Symbol: String,
-  Exchange: String
-});
-
-var marketNewsSchema = new mongoose.Schema({
-  datetime: String,
-  headline: String,
-  source: String,
-  url: String,
-  summary: String,
-  related: String,
-  image: String
-});
-
-var userSchema = new mongoose.Schema({
-  Name: String,
-  Password: String,
-  Email: String
-});
-
-var marketCompanySchema = new mongoose.Schema({
-  symbol: String,
-  companyName: String,
-  exchangeMarket: String,
-  sector: String,
-  calcPrice: String,
-  open: Number,
-  openTime: Number,
-  close: Number,
-  closeTime: Number,
-  high: Number,
-  low: Number,
-  latestPrice: Number,
-  latestSource: String,
-  latestTime: String,
-  latestUpdate: Number,
-  latestVolume: Number,
-  iexRealTimePrice: Boolean,
-  iexRealTimeStatus: Boolean,
-  iexLastUpdated: Boolean,
-  delayedPrice: Number,
-  delayedPriceTime: Number,
-  extendedPrice: Number,
-  extendedChange: Number,
-  extendedChangePercent: Number,
-  extendedPriceTime: Number,
-  previousClose: Number,
-  change: Number,
-  changePercent: Number,
-  iexMarketPercent: Number,
-  iexVolume: Number,
-  avgTotalVolume: Number,
-  iexBidPrice: Boolean,
-  iexBidSize: Boolean,
-  iexAskPrice: Boolean,
-  iexAskSize: Boolean,
-  marketCap: Number,
-  peRatio: Boolean,
-  week52High: Number,
-  week52Low: Number,
-  ytdChange: Number
-});
-
-var Stock = mongoose.model("Stock", stockSchema);
-var Company = mongoose.model("Company", lookupSchema);
-var Favourites = mongoose.model("Favourites", favSchema);
-var User = mongoose.model("User", userSchema);
-var Article = mongoose.model("MarketNews", marketNewsSchema);
-var marketCompany = mongoose.model("marketCompany", marketCompanySchema);
+var Stock = require("./models/Stock");
+var Company = require("./models/LookUpSchema");
+var Favourites = require("./models/FavStock");
+var User = require("./models/User");
+var Article = require("./models/MarketNewsSchema");
+var marketCompany = require("./models/MarketCompany");
 
 var session = "";
 var company = {};
