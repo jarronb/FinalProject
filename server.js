@@ -28,69 +28,11 @@ app.set("view engine", "pug");
 app.set("views", __dirname + "/views");
 module.exports = app;
 
-var stockSchema = new mongoose.Schema({
-  Name: String,
-  Symbol: String,
-  LastPrice: Number,
-  Change: Number,
-  ChangePercent: Number,
-  MarketCap: Number,
-  Volume: Number,
-  ChangeYTD: Number,
-  ChangePercentYTD: Number,
-  High: Number,
-  Low: Number,
-  Open: Number,
-  DateCreated: {
-    type: Date,
-    default: Date.now
-  },
-  user: String
-});
-var favSchema = new mongoose.Schema({
-  Name: String,
-  Symbol: String,
-  LastPrice: Number,
-  Change: Number,
-  ChangePercent: Number,
-  MarketCap: Number,
-  Volume: Number,
-  ChangeYTD: Number,
-  ChangePercentYTD: Number,
-  High: Number,
-  Low: Number,
-  Open: Number,
-  DateCreated: {
-    type: Date,
-    default: Date.now
-  }
-});
-var lookupSchema = new mongoose.Schema({
-  Name: String,
-  Symbol: String,
-  Exchange: String
-});
-
-var marketNewsSchema = new mongoose.Schema({
-  datetime: String,
-  headline: String,
-  source: String,
-  url: String,
-  summary: String,
-  related: String,
-  image: String
-});
-
-var userSchema = new mongoose.Schema({
-  Name: String,
-  Password: String,
-  Email: String
-});
-var Stock = mongoose.model("Stock", stockSchema);
-var Company = mongoose.model("Company", lookupSchema);
-var Favourites = mongoose.model("Favourites", favSchema);
-var User = mongoose.model("User", userSchema);
-var Article = mongoose.model("MarketNews", marketNewsSchema);
+var Stock = require("./models/Stock");
+var Company = require("./models/LookUpSchema");
+var Favourites = require("./models/FavStock");
+var User = require("./models/User");
+var Article = require("./models/MarketNewsSchema");
 
 var session = "";
 var company = {};
