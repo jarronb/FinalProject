@@ -8,3 +8,4 @@ install:
 deploy:
   provider: heroku
   api_key: b4ccdd4b-9bde-452b-b1ef-f37ca193850d
+  app: itmd565-fall2018
