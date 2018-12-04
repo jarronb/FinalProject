@@ -3,9 +3,9 @@ extends layout.pug
 block content
   h1.mt-5 Market News
   nav.mt-4.navbar-left
-    a.btn.btn-primary.mr-3.mb-3(href='./search') Search
-    a.btn.btn-primary.mr-3.mb-3(href='./api/history') History
-    a.btn.btn-primary.mr-3.mb-3(href='#byCompany') Search by company
+    a.btn.btn-primary.mr-3.mb-3(href='../../api/search') Search
+    a.btn.btn-primary.mr-3.mb-3(href='../../api/history') History
+    a.btn.btn-primary.mr-3.mb-3(href='') Search by company
   tbody
     each articles in Article
       ul(style='list-style:none; padding-left:0;')
@@ -19,7 +19,7 @@ block content
 
   section.mt-5#byCompany
     h4 Search for news by company
-    form.form-inline#search(method="POST" action="/api/coNews", name="search")
+    form.form-inline#search(method="POST" action="/api/news/company", name="search")
       .form-group
         input#name.form-control(type="text", placeholder='aapl, abc', name='id')
       button.btn.btn-default.ml-3(type='button') View
