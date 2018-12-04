@@ -22,7 +22,11 @@ html
 
     footer.footer
       .container(style='margin-top:5%; clear:both')
-        span.text-muted Copyright 2018.
+      if user.Name
+        form(method='POST' action='/delete/'+user._id+"?_method=DELETE")
+          button.btn.btn-default.btn-sm.bg-danger.text-white.float-right.mr-5(type='submit')
+           | Delete Accout
+        span.text-muted.ml-5 Copyright 2018.
 
     script(src='https://code.jquery.com/jquery-3.2.1.slim.min.js', integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN', crossorigin='anonymous')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js', integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q', crossorigin='anonymous')

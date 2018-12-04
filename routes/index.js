@@ -150,4 +150,11 @@ router.delete("/favorites/:symbol", (req, res) => {
   });
 });
 
+router.delete("/delete/:id", (req, res) => {
+  User.remove({ _id: req.params.id }).then(() => {
+    req.flash("success", "Account has been deleted!");
+    res.redirect("/login");
+  });
+});
+
 module.exports = router;
