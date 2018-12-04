@@ -83,7 +83,6 @@ app.use("/api/news", apiNews);
 app.use("/api/markets", apiMarkets);
 
 // var session = "";
-var company = {};
 
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
@@ -141,4 +140,12 @@ app.get("/stock/new/:Symbol", ensureAuthenticated, (req, res) => {
   });
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+let server = app.listen(port, () => {
+  console.log(`Example app listening on port ${port}!`);
+});
+
+const stop = () => {
+  server.close();
+};
+
+module.exports.stop = stop;
