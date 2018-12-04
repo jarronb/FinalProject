@@ -53,7 +53,7 @@ router.post("/", function(req, res) {
     jsonBody.user = session;
     if (!jsonBody.Message) {
       var newStocks = new Stock(jsonBody);
-
+      newStocks.user = req.user;
       newStocks.save(function(err) {
         if (err) {
           throw err;
@@ -63,6 +63,9 @@ router.post("/", function(req, res) {
         }
       });
       //   res.render('landingpage',{company:newStocks})
+    } else {
+      req.flash("error", "Company not found!");
+      res.redirect("/api/stock");
     }
   });
 });

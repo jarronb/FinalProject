@@ -83,7 +83,7 @@ router.get("/stock/:symbol", (req, res) => {
     if (!jsonBody.Message) {
       var newStock = new Stock(jsonBody);
       newStock.user = req.user;
-      newStock.save(function(err) {
+      newStock.save(err, newStock => {
         if (err) {
           throw err;
         } else {
