@@ -8,6 +8,8 @@ const port = 3000;
 
 var mongoose = require("mongoose");
 
+const { ensureAuthenticated } = require("./helpers/auth");
+
 //PASSPORT CONFIG
 require("./config/passport")(passport);
 
@@ -100,78 +102,43 @@ app.get("/api/markets", function(req, res) {
   res.render("markets");
 });
 
-app.get("/api/history", (req, res) => {
-  Stock.find({}, function(err, stocks) {
+app.get("/api/history", ensureAuthenticated, (req, res) => {
+  Stock.find({ user: req.user }, function(err, stocks) {
+    console.log(stocks);
+
     if (err) {
-      console.log(err);
-      res.render("error", {});
+      console.log("error");
+      // res.render("error", {});
+      return;
     } else {
       res.render("history", { stocks: stocks });
     }
   });
 });
 
-// app.get("/stock/new/:Symbol", (req, res) => {
-//   Stock.findOne({ symbol: req.params.Symbol }, function(err, stocks) {
-//     if (err) {
-//       console.log(err);
-//       res.render("error", {});
-//     } else {
-//       console.log(stocks);
-//       if (stocks === null) {
-//         res.render("error", { message: "Not found" });
-//       } else {
-//         // res.status(200).send(book)
-//         // res.render('index', { stocks: stocks})
-//         var fav = new Favourites(stocks);
-//         fav.save(function(err) {
-//           if (err) {
-//             throw err;
-//           } else {
-//             console.log(jsonBody);
-//             res.render("index", { stocks: stocks });
-//           }
-//         });
-//       }
-//     }
-//   });
-// });
-
-// app.get("/stock/:symbol", (req, res) => {
-//   var query = {
-//     symbol: req.params.symbol
-//   };
-
-//   var options = {
-//     url: "http://dev.markitondemand.com/MODApis/Api/v2/Quote/json",
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json"
-//     },
-//     qs: query
-//   };
-
-//   request(options, function(err, request, body) {
-//     // markitondemand return status 200 whether if found stock or not
-//     // if it found stock there will not be a message field
-//     // if found stock then and only then save data to MongoDB
-//     console.log("inside");
-//     var jsonBody = JSON.parse(body);
-//     if (!jsonBody.Message) {
-//       jsonBody.user = session;
-//       var newStocks = new Stock(jsonBody);
-
-//       newStocks.save(function(err) {
-//         if (err) {
-//           throw err;
-//         } else {
-//           console.log(jsonBody);
-//           res.render("landingpage", { company: newStocks });
-//         }
-//       });
-//       //  res.render('landingpage',{company:newStocks})
-//     }
-//   });
-// });
+app.get("/stock/new/:Symbol", ensureAuthenticated, (req, res) => {
+  Stock.findOne({ symbol: req.params.Symbol }, function(err, stocks) {
+    if (err) {
+      console.log(err);
+      res.render("error", {});
+    } else {
+      if (stocks === null) {
+        res.render("error", { message: "Not found" });
+      } else {
+        // res.status(200).send(book)
+        // res.render('index', { stocks: stocks})
+        var fav = new Favourites(stocks);
+        fav.save(function(err) {
+          if (err) {
+            throw err;
+          } else {
+            console.log(jsonBody);
+            res.render("index", { stocks: stocks });
+          }
+        });
+      }
+    }
+  });
+});
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

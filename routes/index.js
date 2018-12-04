@@ -9,6 +9,8 @@ var company = {};
 var User = require("../models/User");
 var Favourites = require("../models/FavStock");
 
+const { ensureAuthenticated } = require("../helpers/auth");
+
 router.get("/", (req, res) => {
   console.log(typeof req.user);
 
@@ -22,7 +24,11 @@ router.get("/", (req, res) => {
 
 // Sign up route
 router.get("/signup", (req, res) => {
-  res.render("register", {});
+  res.render("register", {
+    user: {
+      Name: false
+    }
+  });
 });
 
 // Register route
@@ -71,7 +77,7 @@ router.get("/login", (req, res) => {
   res.render("login", { user: {} });
 });
 
-router.get("/home", (req, res) => {
+router.get("/home", ensureAuthenticated, (req, res) => {
   Favourites.find({}, function(err, stocks) {
     if (err) {
       console.log(err);

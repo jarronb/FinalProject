@@ -12,12 +12,12 @@ html
           #navbarSupportedContent.collapse.navbar-collapse
             ul.navbar-nav.ml-auto
               li.nav-item.active
-                a.nav-link(href='./logout')
+                a.nav-link(href='/logout')
                   | Logout 
 
         span.sr-only (current)
     main.container(role='main')
-      include flash-msg.pug
+      include ./partials/flash-msg.pug
       block content
 
     footer.footer

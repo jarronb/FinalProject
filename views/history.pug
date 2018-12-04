@@ -1,7 +1,8 @@
 extends layout.pug
 
 block content
-  h1.mt-5 Stocks
+  include ./partials/inAppNav.pug
+  h1.mt-2 Stocks
   table.table
     thead
       tr
@@ -24,5 +25,5 @@ block content
           td= company.High
           td= company.Low
           td= company.Open
-          td= company.user
+          td= company.user.Name
           td= company.DateCreated
