@@ -10,14 +10,14 @@ var User = require("../models/User");
 var Favourites = require("../models/FavStock");
 
 router.get("/", (req, res) => {
-  if (session === "") {
-    res.render("login", { user: {} });
+  console.log(typeof req.user);
+
+  if (req.user) {
+    res.redirect("./home");
   } else {
-    res.render("index", { title: "Welcome " + session, stocks: company });
+    req.flash("error", "Please login");
+    res.redirect("./login");
   }
-  console.log(session);
-  console.log(req.body);
-  res.render("index", { stocks: company });
 });
 
 // Sign up route
@@ -57,44 +57,17 @@ router.post("/login", (req, res, next) => {
     failureFlash: true,
     successFlash: true
   })(req, res, next);
-
-  // User.findOne({ Email: req.body.email, Password: req.body.password }, function(
-  //   err,
-  //   login
-  // ) {
-  //   if (err) {
-  //     console.log(err);
-  //     res.render("error", {});
-  //   } else {
-  //     if (login === null) {
-  //       res.render("error", { message: "Username or password incorrect" });
-  //     } else {
-  //       Favourites.find({}, function(err, stocks) {
-  //         if (err) {
-  //           console.log(err);
-  //           res.render("error", {});
-  //         } else {
-  //           session = login.Name;
-  //           res.render("index", {
-  //             title: "Welcome " + login.Name,
-  //             stocks: stocks
-  //           });
-  //         }
-  //       });
-  //     }
-  //   }
-  // });
 });
 
 // Log out route
 router.get("/logout", (req, res) => {
-  session = "";
-  res.render("login", { user: {} });
+  req.logout();
+  req.flash("success", "You are logged out");
+  res.redirect("./login");
 });
 
 // Log in route
 router.get("/login", (req, res) => {
-  session = "";
   res.render("login", { user: {} });
 });
 

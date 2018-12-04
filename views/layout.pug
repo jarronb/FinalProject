@@ -8,8 +8,16 @@ html
         a.navbar-brand(href='/') stocks
         button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarCollapse', aria-controls='navbarCollapse', aria-expanded='false', aria-label='Toggle navigation')
           span.navbar-toggler-icon
+        - if (typeof user !== "undefined") 
+          #navbarSupportedContent.collapse.navbar-collapse
+            ul.navbar-nav.ml-auto
+              li.nav-item.active
+                a.nav-link(href='./logout')
+                  | Logout 
+
+        span.sr-only (current)
     main.container(role='main')
-      include error.pug
+      include flash-msg.pug
       block content
 
     footer.footer
