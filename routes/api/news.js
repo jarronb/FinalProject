@@ -11,7 +11,6 @@ const { ensureAuthenticated } = require("../../helpers/auth");
 /* show news on market */
 router.get("/", ensureAuthenticated, (req, res) => {
   res.render("news", { title: "news", query: {} });
-  console.log("loading news");
 });
 
 // @route   GET api/posts
@@ -33,8 +32,6 @@ router.get("/market", ensureAuthenticated, function(req, res) {
     var articles = jsonBody.map(function(data) {
       return new Article(data);
     });
-    console.log(jsonBody.length);
-    console.log(articles.length);
 
     res.render("news", { Article: articles });
   });
@@ -63,14 +60,11 @@ router.post("/company", function(req, res) {
       res.redirect("./market");
     }
 
-    console.log(jsonBody);
     if (error === false) {
       var articles = jsonBody.map(function(data) {
-        console.log(articles);
         return new Article(data);
       });
 
-      console.log("ARTICLES: " + { Article: articles });
       res.render("news", { Article: articles });
     }
   });

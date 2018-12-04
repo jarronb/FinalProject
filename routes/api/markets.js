@@ -20,7 +20,6 @@ router.get("/gainers", ensureAuthenticated, function(req, res) {
     var company = jsonBody.map(function(data) {
       return new marketCompany(data);
     });
-    console.log(company.length);
 
     res.render("markets", {
       marketCompany: company,
@@ -41,7 +40,6 @@ router.get("/losers", ensureAuthenticated, function(req, res) {
     var company = jsonBody.map(function(data) {
       return new marketCompany(data);
     });
-    console.log(company.length);
 
     res.render("markets", { marketCompany: company, title: "Losers" });
   });
@@ -59,7 +57,6 @@ router.get("/inFocus", ensureAuthenticated, function(req, res) {
     var company = jsonBody.map(function(data) {
       return new marketCompany(data);
     });
-    console.log(company.length);
 
     res.render("markets", { marketCompany: company, title: "Focus" });
   });

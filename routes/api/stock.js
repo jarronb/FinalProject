@@ -15,18 +15,15 @@ const { ensureAuthenticated } = require("../../helpers/auth");
 /* with parameters for searching different ranges */
 router.get("/financials", (req, res) => {
   res.render("Financials", { title: "financials", query: {} });
-  console.log("rendering full page financials");
 });
 
 /* show market stats for certain ranges */
 router.get("/market", (req, res) => {
   res.render("markets", { title: "market", query: {} });
-  console.log("rendering market stats");
 });
 
 router.get("/", ensureAuthenticated, (req, res) => {
   res.render("find-stock", { title: "Find Stock", company: {} });
-  console.log(req.body.id);
 });
 
 router.post("/", function(req, res) {
@@ -48,7 +45,6 @@ router.post("/", function(req, res) {
     // if it found stock there will not be a message field
     // if found stock then and only then save data to MongoDB
     var jsonBody = JSON.parse(body);
-    console.log(jsonBody);
 
     jsonBody.user = session;
     if (!jsonBody.Message) {
@@ -58,7 +54,6 @@ router.post("/", function(req, res) {
         if (err) {
           throw err;
         } else {
-          console.log(jsonBody);
           res.render("landingpage", { company: newStocks });
         }
       });

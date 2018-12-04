@@ -96,7 +96,6 @@ db.on("error", console.error.bind(console, "connection error:"));
 /* show news on market */
 app.get("/news", (req, res) => {
   res.render("news", { title: "news", query: {} });
-  console.log("loading news");
 });
 
 app.get("/api/markets", function(req, res) {
@@ -104,7 +103,7 @@ app.get("/api/markets", function(req, res) {
 });
 
 let server = app.listen(port, () => {
-  console.log(`Example app listening on port ${port}!`);
+  console.log(`Stockify listening on port ${port}!`);
 });
 
 const stop = () => {

@@ -16,7 +16,6 @@ const { ensureAuthenticated } = require("../../helpers/auth");
 /* search functions */
 router.get("/", ensureAuthenticated, (req, res) => {
   res.render("search", { title: "Search", query: {} });
-  console.log("rendering search");
 });
 
 /* show news for a single market */
@@ -26,27 +25,22 @@ router.post("/company/news", function(req, res) {
   };
 
   var thisCompany = req.body.id;
-  //  console.log(thisCompany);
+
 
   var options = {
     url:
       "https://api.iextrading.com/1.0/stock/" + thisCompany + "/news/last/20",
     method: "GET"
   };
-  //console.log(options)
 
   request(options, function(err, request, body) {
-    //  console.log("BODY: " + body);
 
     var jsonBody = JSON.parse(body);
-    //  console.log(jsonBody);
 
     var articles = jsonBody.map(function(data) {
-      //    console.log(articles);
       return new Article(data);
     });
 
-    console.log("ARTICLES: " + { Article: articles });
     res.render("news", { Article: articles });
   });
 });
@@ -57,7 +51,6 @@ router.post("/company/news", function(req, res) {
 // @access  Public
 router.get("/stock", ensureAuthenticated, (req, res) => {
   res.render("search-stock", { title: "Search Stock", query: {} });
-  console.log(req.body.id);
 });
 
 router.get("/stock/:symbol", (req, res) => {
@@ -78,7 +71,6 @@ router.get("/stock/:symbol", (req, res) => {
     // markitondemand return status 200 whether if found stock or not
     // if it found stock there will not be a message field
     // if found stock then and only then save data to MongoDB
-    console.log("inside");
     var jsonBody = JSON.parse(body);
     if (!jsonBody.Message) {
       var newStock = new Stock(jsonBody);
@@ -87,7 +79,6 @@ router.get("/stock/:symbol", (req, res) => {
         if (err) {
           throw err;
         } else {
-          console.log(jsonBody);
           res.render("landingpage", { company: newStock });
         }
       });
@@ -116,14 +107,12 @@ router.post("/stock", function(req, res) {
     // if found stock then and only then save data to MongoDB
     var jsonBody = JSON.parse(body);
     if (!jsonBody.Message) {
-      console.log(jsonBody);
       var lookupInfo = new Company(jsonBody);
 
       lookupInfo.save(function(err) {
         if (err) {
           throw err;
         } else {
-          console.log(jsonBody);
           res.render("lookup-detail", { query: jsonBody });
         }
       });

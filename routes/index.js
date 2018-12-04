@@ -14,8 +14,6 @@ var Favourites = require("../models/FavStock");
 const { ensureAuthenticated } = require("../helpers/auth");
 
 router.get("/", (req, res) => {
-  console.log(typeof req.user);
-
   if (req.user) {
     res.redirect("./home");
   } else {
@@ -35,9 +33,6 @@ router.get("/signup", (req, res) => {
 
 // Register route
 router.post("/register", (req, res) => {
-  //res.render('index', {})
-  console.log(req.body);
-
   var newUser = new User(req.body);
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(newUser.Password, salt, (err, hash) => {
@@ -57,8 +52,6 @@ router.post("/register", (req, res) => {
 
 // Login route
 router.post("/login", (req, res, next) => {
-  console.log(req.body);
-
   passport.authenticate("local", {
     successRedirect: "/home",
     failureRedirect: "/login",
@@ -82,7 +75,6 @@ router.get("/login", (req, res) => {
 router.get("/home", ensureAuthenticated, (req, res) => {
   Favourites.find({}, function(err, stocks) {
     if (err) {
-      console.log(err);
       res.render("error", {});
     } else {
       res.render("index", { stocks: stocks });
@@ -92,11 +84,8 @@ router.get("/home", ensureAuthenticated, (req, res) => {
 
 router.get("/history", ensureAuthenticated, (req, res) => {
   Stock.find({ user: req.user }, function(err, stocks) {
-    console.log(stocks);
-
     if (err) {
-      console.log("error");
-      // res.render("error", {});
+
     } else {
       res.render("history", { stocks: stocks });
     }
@@ -135,17 +124,14 @@ router.get("/favorites/:symbol", ensureAuthenticated, (req, res) => {
     // markitondemand return status 200 whether if found stock or not
     // if it found stock there will not be a message field
     // if found stock then and only then save data to MongoDB
-    console.log("inside");
     var jsonBody = JSON.parse(body);
     if (!jsonBody.Message) {
-      console.log("[JSON BODY]", jsonBody);
       var fav = new Favourites(jsonBody);
       fav.user = req.user;
       fav.save(function(err) {
         if (err) {
           throw err;
         } else {
-          console.log(jsonBody);
           Favourites.find({ user: req.user }).then(stocks => {
             req.flash("success", "Favorite has been added!");
             res.redirect("/home");

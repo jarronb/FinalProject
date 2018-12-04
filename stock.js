@@ -19,7 +19,6 @@ module.exports = function(app) {
   });
 
   app.post("/api/stock", function(req, res) {
-    console.log(req.body);
     var query = {
       symbol: req.body.stockSymbol
     };
