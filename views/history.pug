@@ -15,6 +15,7 @@ block content
         th(scope='col') Open
         th(scope='col') By
         th(scope='col') Search Time
+        th(scope='col')
     tbody
       each company in stocks
         tr
@@ -27,3 +28,7 @@ block content
           td= company.Open
           td= company.user.Name
           td= company.DateCreated
+          td 
+            form(method='POST' action='./history/'+company.Symbol+'/'+company.LastPrice+"?_method=DELETE")
+              button.btn.btn-default.btn-md.bg-danger.text-white.font-weight-bold(type='submit')
+                | Delete

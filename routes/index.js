@@ -104,6 +104,20 @@ router.get("/history", ensureAuthenticated, (req, res) => {
   });
 });
 
+router.delete(
+  "/history/:symbol/:lastPrice",
+  ensureAuthenticated,
+  (req, res) => {
+    Stock.remove({
+      Symbol: req.params.symbol,
+      LastPrice: req.params.lastPrice
+    }).then(() => {
+      req.flash("success", "Stock has been deleted!");
+      res.redirect("/history");
+    });
+  }
+);
+
 router.get("/favorites/:symbol", ensureAuthenticated, (req, res) => {
   var query = {
     symbol: req.params.symbol
