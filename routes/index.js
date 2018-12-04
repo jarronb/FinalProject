@@ -9,6 +9,8 @@ var company = {};
 var User = require("../models/User");
 var Favourites = require("../models/FavStock");
 
+const { ensureAuthenticated } = require("../helpers/auth");
+
 router.get("/", (req, res) => {
   console.log(typeof req.user);
 
@@ -71,7 +73,7 @@ router.get("/login", (req, res) => {
   res.render("login", { user: {} });
 });
 
-router.get("/home", (req, res) => {
+router.get("/home", ensureAuthenticated, (req, res) => {
   Favourites.find({}, function(err, stocks) {
     if (err) {
       console.log(err);

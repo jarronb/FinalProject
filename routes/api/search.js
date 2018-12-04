@@ -5,8 +5,12 @@ var request = require("request");
 
 var Company = require("../../models/LookUpSchema");
 
+// Route: api/search
+
+const { ensureAuthenticated } = require("../../helpers/auth");
+
 /* search functions */
-router.get("/", (req, res) => {
+router.get("/", ensureAuthenticated, (req, res) => {
   res.render("search", { title: "Search", query: {} });
   console.log("rendering search");
 });
@@ -47,7 +51,7 @@ router.post("/company/news", function(req, res) {
 // @desc    Display search view
 //@view     search-stock
 // @access  Public
-router.get("/stock", (req, res) => {
+router.get("/stock", ensureAuthenticated, (req, res) => {
   res.render("search-stock", { title: "Search Stock", query: {} });
   console.log(req.body.id);
 });
