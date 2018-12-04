@@ -97,7 +97,6 @@ router.get("/history", ensureAuthenticated, (req, res) => {
     if (err) {
       console.log("error");
       // res.render("error", {});
-      return;
     } else {
       res.render("history", { stocks: stocks });
     }

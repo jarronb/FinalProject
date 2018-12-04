@@ -5,7 +5,7 @@ const flash = require("connect-flash");
 const app = express();
 const session = require("express-session");
 const methodOverride = require("method-override");
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 var mongoose = require("mongoose");
 
@@ -51,7 +51,6 @@ app.use((req, res, next) => {
   res.locals.error = req.flash("error");
   res.locals.success = req.flash("success");
   res.locals.user = req.user || null;
-  console.log(req.user);
 
   next();
 });
