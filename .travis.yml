@@ -1,9 +1,8 @@
 language: node_js
 node_js:
   - "iojs"
-  - "7"
-env:
-  - MONGO_URI="mongodb://admin:ITMD562!@ds039027.mlab.com:39027/itmd565fall2018"
+install:
+  - npm install
 deploy:
   provider: heroku
   api_key: b4ccdd4b-9bde-452b-b1ef-f37ca193850d
