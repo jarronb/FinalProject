@@ -4,6 +4,7 @@ const passport = require("passport");
 const flash = require("connect-flash");
 const app = express();
 const session = require("express-session");
+const methodOverride = require("method-override");
 const port = process.env.PORT || 3000;
 
 var mongoose = require("mongoose");
@@ -62,6 +63,8 @@ app.use(express.static("public"));
 app.set("view engine", "pug");
 app.set("views", __dirname + "/views");
 module.exports = app;
+// override with POST having ?_method=DELETE
+app.use(methodOverride("_method"));
 
 var Stock = require("./models/Stock");
 var Favourites = require("./models/FavStock");
@@ -99,45 +102,6 @@ app.get("/news", (req, res) => {
 
 app.get("/api/markets", function(req, res) {
   res.render("markets");
-});
-
-app.get("/api/history", ensureAuthenticated, (req, res) => {
-  Stock.find({ user: req.user }, function(err, stocks) {
-    console.log(stocks);
-
-    if (err) {
-      console.log("error");
-      // res.render("error", {});
-      return;
-    } else {
-      res.render("history", { stocks: stocks });
-    }
-  });
-});
-
-app.get("/stock/new/:Symbol", ensureAuthenticated, (req, res) => {
-  Stock.findOne({ symbol: req.params.Symbol }, function(err, stocks) {
-    if (err) {
-      console.log(err);
-      res.render("error", {});
-    } else {
-      if (stocks === null) {
-        res.render("error", { message: "Not found" });
-      } else {
-        // res.status(200).send(book)
-        // res.render('index', { stocks: stocks})
-        var fav = new Favourites(stocks);
-        fav.save(function(err) {
-          if (err) {
-            throw err;
-          } else {
-            console.log(jsonBody);
-            res.render("index", { stocks: stocks });
-          }
-        });
-      }
-    }
-  });
 });
 
 let server = app.listen(port, () => {
