@@ -24,7 +24,11 @@ router.get("/", (req, res) => {
 
 // Sign up route
 router.get("/signup", (req, res) => {
-  res.render("register", {});
+  res.render("register", {
+    user: {
+      Name: false
+    }
+  });
 });
 
 // Register route

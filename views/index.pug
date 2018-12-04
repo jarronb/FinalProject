@@ -1,12 +1,8 @@
 extends layout.pug
 
 block content
-  h1.mt-5 Favorites
-  nav(style='padding:10px 0')
-    a.btn.btn-primary.mb-3(href='./api/search' style='margin-left: 0; margin-bottom:15px') Search
-    a.btn.btn-primary.ml-5.mb-3(href='./api/history') History
-    a.btn.btn-primary.ml-5.mb-3(href='./api/news/market') News
-    a.btn.btn-primary.ml-5.mb-3(href='./api/charts') Interactive Chart
+  include ./partials/inAppNav.pug
+  h1.mt-2 Favorites
   table.table
     thead
       tr
