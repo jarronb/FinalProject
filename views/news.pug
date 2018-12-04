@@ -3,11 +3,7 @@ extends layout.pug
 block content
   include ./partials/inAppNav.pug
   h1.mt-2 Market News
-  nav.mt-4.navbar-left
-    a.btn.btn-primary.mr-3.mb-3(href='../../api/search') Search
-    a.btn.btn-primary.mr-3.mb-3(href='../../api/history') History
-    a.btn.btn-primary.mr-3.mb-3(href='') Search by company
-  section.mt-5#byCompany
+  section.mt-4#byCompany
     h4 Search for news by company
     form.form-inline#search(method="POST" action="/api/news/company", name="search")
       .form-group
