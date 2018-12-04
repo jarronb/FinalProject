@@ -16,5 +16,5 @@ describe("pow", function() {
 });
 
 function pow() {
-  return 8; // :) we cheat!
+  return 9; // :) we cheat!
 }
