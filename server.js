@@ -1,9 +1,16 @@
 "use strict";
 const express = require("express");
+const passport = require("passport");
+const flash = require("connect-flash");
 const app = express();
+const session = require("express-session");
 const port = 3000;
 
 var mongoose = require("mongoose");
+
+//PASSPORT CONFIG
+require("./config/passport")(passport);
+
 // DB CONFIG
 const dbase = require("./config/keys").mongoUri;
 
@@ -20,6 +27,32 @@ mongoose
     console.log(error);
   });
 
+//EXPRESS SESSION MIDDLEWARE
+app.use(
+  session({
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true
+  })
+);
+
+// CONNECT FLASH MIDDLEWARE
+app.use(flash());
+
+//PASSPORT MIDDLEWARE
+app.use(passport.initialize());
+app.use(passport.session());
+
+//GLOBAL VARIBLES
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
+  res.locals.user = req.user || null;
+  next();
+});
+
 var request = require("request");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -29,11 +62,7 @@ app.set("views", __dirname + "/views");
 module.exports = app;
 
 var Stock = require("./models/Stock");
-var Company = require("./models/LookUpSchema");
 var Favourites = require("./models/FavStock");
-var User = require("./models/User");
-var Article = require("./models/MarketNews");
-var marketCompany = require("./models/MarketCompany");
 
 //LOAD ROUTES
 const index = require("./routes/index");
@@ -51,7 +80,7 @@ app.use("/api/stock", apiStock);
 app.use("/api/news", apiNews);
 app.use("/api/markets", apiMarkets);
 
-var session = "";
+// var session = "";
 var company = {};
 
 var db = mongoose.connection;
@@ -82,67 +111,67 @@ app.get("/api/history", (req, res) => {
   });
 });
 
-app.get("/stock/new/:Symbol", (req, res) => {
-  Stock.findOne({ symbol: req.params.Symbol }, function(err, stocks) {
-    if (err) {
-      console.log(err);
-      res.render("error", {});
-    } else {
-      console.log(stocks);
-      if (stocks === null) {
-        res.render("error", { message: "Not found" });
-      } else {
-        // res.status(200).send(book)
-        // res.render('index', { stocks: stocks})
-        var fav = new Favourites(stocks);
-        fav.save(function(err) {
-          if (err) {
-            throw err;
-          } else {
-            console.log(jsonBody);
-            res.render("index", { stocks: stocks });
-          }
-        });
-      }
-    }
-  });
-});
+// app.get("/stock/new/:Symbol", (req, res) => {
+//   Stock.findOne({ symbol: req.params.Symbol }, function(err, stocks) {
+//     if (err) {
+//       console.log(err);
+//       res.render("error", {});
+//     } else {
+//       console.log(stocks);
+//       if (stocks === null) {
+//         res.render("error", { message: "Not found" });
+//       } else {
+//         // res.status(200).send(book)
+//         // res.render('index', { stocks: stocks})
+//         var fav = new Favourites(stocks);
+//         fav.save(function(err) {
+//           if (err) {
+//             throw err;
+//           } else {
+//             console.log(jsonBody);
+//             res.render("index", { stocks: stocks });
+//           }
+//         });
+//       }
+//     }
+//   });
+// });
 
-app.get("/stock/:symbol", (req, res) => {
-  var query = {
-    symbol: req.params.symbol
-  };
+// app.get("/stock/:symbol", (req, res) => {
+//   var query = {
+//     symbol: req.params.symbol
+//   };
 
-  var options = {
-    url: "http://dev.markitondemand.com/MODApis/Api/v2/Quote/json",
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    qs: query
-  };
+//   var options = {
+//     url: "http://dev.markitondemand.com/MODApis/Api/v2/Quote/json",
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json"
+//     },
+//     qs: query
+//   };
 
-  request(options, function(err, request, body) {
-    // markitondemand return status 200 whether if found stock or not
-    // if it found stock there will not be a message field
-    // if found stock then and only then save data to MongoDB
-    console.log("inside");
-    var jsonBody = JSON.parse(body);
-    if (!jsonBody.Message) {
-      jsonBody.user = session;
-      var newStocks = new Stock(jsonBody);
+//   request(options, function(err, request, body) {
+//     // markitondemand return status 200 whether if found stock or not
+//     // if it found stock there will not be a message field
+//     // if found stock then and only then save data to MongoDB
+//     console.log("inside");
+//     var jsonBody = JSON.parse(body);
+//     if (!jsonBody.Message) {
+//       jsonBody.user = session;
+//       var newStocks = new Stock(jsonBody);
 
-      newStocks.save(function(err) {
-        if (err) {
-          throw err;
-        } else {
-          console.log(jsonBody);
-          res.render("landingpage", { company: newStocks });
-        }
-      });
-      //  res.render('landingpage',{company:newStocks})
-    }
-  });
-});
+//       newStocks.save(function(err) {
+//         if (err) {
+//           throw err;
+//         } else {
+//           console.log(jsonBody);
+//           res.render("landingpage", { company: newStocks });
+//         }
+//       });
+//       //  res.render('landingpage',{company:newStocks})
+//     }
+//   });
+// });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
