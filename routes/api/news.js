@@ -39,4 +39,41 @@ router.get("/market", ensureAuthenticated, function(req, res) {
     res.render("news", { Article: articles });
   });
 });
+
+/* show news for a single market */
+router.post("/company", function(req, res) {
+  var query = {
+    input: req.body.id
+  };
+  var thisCompany = req.body.id;
+
+  var options = {
+    url:
+      "https://api.iextrading.com/1.0/stock/" + thisCompany + "/news/last/20",
+    method: "GET"
+  };
+
+  request(options, function(err, request, body) {
+    let error = false;
+    try {
+      var jsonBody = JSON.parse(body);
+    } catch (err) {
+      error = true;
+      req.flash("error", "Symbol not found!");
+      res.redirect("./market");
+    }
+
+    console.log(jsonBody);
+    if (error === false) {
+      var articles = jsonBody.map(function(data) {
+        console.log(articles);
+        return new Article(data);
+      });
+
+      console.log("ARTICLES: " + { Article: articles });
+      res.render("news", { Article: articles });
+    }
+  });
+});
+
 module.exports = router;
