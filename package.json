@@ -4,8 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "npx nodemon server.js",
-    "test": "NODE_ENV=test mocha test/**/*.js"
+    "start": "node server.js",
+    "dev": "npx nodemon server.js",
+    "test": "mocha --exit"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +29,7 @@
     "request": "^2.69.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.7"
+    "nodemon": "^1.18.7",
+    "travis-cli": "^1.0.9"
   }
 }
