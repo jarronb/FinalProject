@@ -1,3 +1,7 @@
+language: node_js
+node_js:
+  - "iojs"
+  - "7"
 deploy:
   provider: heroku
   api_key: b4ccdd4b-9bde-452b-b1ef-f37ca193850d
