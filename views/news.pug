@@ -5,10 +5,10 @@ block content
   h1.mt-2 Market News
   section.mt-4#byCompany
     h4 Search for news by company
-    form.form-inline#search(method="POST" action="/api/news/company", name="search")
-      .form-group
-        input#name.form-control(type="text", placeholder='aapl, abc', name='id')
-        button.btn.btn-default.ml-3.font-weight-bold(type='submit') View
+      form#search(method="POST" action="/api/news/company", name="search")
+        .form-group.row
+          input#name.form-control.col-9(type="text", placeholder='aapl, abc', name='id')
+          button.btn.btn-primary.ml-3.col-2(type='submit') Search
   tbody
     each articles in Article
       ul(style='list-style:none; padding-left:0;')

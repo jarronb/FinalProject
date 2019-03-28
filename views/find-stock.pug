@@ -4,7 +4,7 @@ block content
   include ./partials/inAppNav.pug
   h1.mt-2= title
   form(method="POST" action="./stock")
-    .form-group
-      label(for='title') Company Name
-      input#name.form-control(type='text', placeholder='Enter id', name="id", value=company.id)
-    button.btn.btn-primary(type='submit') Find
+    .form-group.row
+      label(for='title').col-12 Company Name
+      input#name.form-control(type='text', placeholder='Enter id', name="id", value=company.id).col-9
+      button.btn.btn-primary(type='submit').col-2.ml-3 Search

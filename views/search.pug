@@ -3,10 +3,10 @@ extends layout.pug
 block content
   include ./partials/inAppNav.pug
   h1.mt-2= "Search by..."
-  section(style='padding:10px 0')
+  section(style='padding:10px 0').d-flex.flex-row
     a.btn.btn-primary.mr-4.mb-3(href='./search/stock') Company
     a.btn.btn-primary.mr-4.mb-3(href='./stock') Symbol
   h2.mt-5= "Search for..."
-  section
+  section.d-flex.flex-row.flex-wrap
     a.btn.btn-primary.mr-4.mb-3(href='./markets/gainers') Top Market Performers
     a.btn.btn-primary.mr-4.mb-3(href='./news/market') Market and Company News

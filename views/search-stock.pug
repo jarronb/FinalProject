@@ -4,7 +4,7 @@ block content
   include ./partials/inAppNav.pug 
   h1.mt-2= title
   form(method="POST")
-    .form-group
-      label(for='title') Company Name
-      input#name.form-control(type='text', placeholder='Example: Apple, Tesla', name="id", value=query.id)
-    button.btn.btn-primary(type='post') Find
+    .form-group.row
+      label(for='title').col-12 Company Name
+      input#name.form-control(type='text', placeholder='Example: Apple, Tesla', name="id", value=query.id).col-9
+      button.btn.btn-primary(type='post').col-2.ml-3 Search
