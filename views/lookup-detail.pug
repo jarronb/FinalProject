@@ -2,21 +2,20 @@ extends layout.pug
 
 block content
   h1.mt-5 Stocks
-  .table-responsive
-      table.table
-        caption.d-md-none Scroll right to see all columns -&#62;
-          thead
+    table.table
+      caption.d-md-none Scroll right to see all columns -&#62;
+        thead
+          tr
+            th(scope='col') Name
+            th(scope='col') Symbol
+            th(scope='col') Exchange
+        tbody
+          each company in query
             tr
-              th(scope='col') Name
-              th(scope='col') Symbol
-              th(scope='col') Exchange
-          tbody
-            each company in query
-              tr
-                td= company.Name
-                td
+              td= company.Name
+              td
                 form(method="POST" action="../stock")
                   .form-group
                     input#name.form-control(type='hidden', placeholder='Enter id', name="id", value=company.Symbol)
                     button(type='submit').btn.btn-outline-primary= company.Symbol
-                td= company.Exchange
+              td= company.Exchange
