@@ -11,34 +11,35 @@ block content
       a.btn.btn-primary.mr-4.mb-3.btn-sm(href='/api/markets/infocus') In Focus
 
   -var n=1;
-  section
-  table.table.table-sm
-    thead.thead-light
-      tr
-        th(scope='col') #
-        th(scope='col') Symbol
-        th(scope='col') Company
-        th(scope='col') Open
-        th(scope='col') Close
-        th(scope='col') High
-        th(scope='col') Low
-        th(scope='col') Change
-        th(scope='col') Market Cap
-        th(scope='col' style='white-space:nowrap') 52-week High
-        th(scope='col' style='white-space:nowrap') 52-week Low
-        th(scope='col') YTD Change
-    tbody
-      each company in marketCompany
-        tr
-          th(scope="row")= n++
-          td= company.symbol
-          td= company.companyName
-          td= company.open
-          td= company.close
-          td= company.high
-          td= company.low
-          td= company.change
-          td= company.marketCap
-          td= company.week52High
-          td= company.week52Low
-          td= company.ytdChange
+  section.table-responsive
+    table.table.table-sm
+        caption.d-xl-none Scroll right to see all columns -&#62;
+        thead.thead-light
+          tr
+            th(scope='col') #
+            th(scope='col') Symbol
+            th(scope='col') Company
+            th(scope='col') Open
+            th(scope='col') Close
+            th(scope='col') High
+            th(scope='col') Low
+            th(scope='col') Change
+            th(scope='col') Market Cap
+            th(scope='col' style='white-space:nowrap') 52-week High
+            th(scope='col' style='white-space:nowrap') 52-week Low
+            th(scope='col') YTD Change
+        tbody
+          each company in marketCompany
+            tr
+              th(scope="row")= n++
+              td(scope="row")= company.symbol
+              td(scope="row")= company.companyName
+              td(scope="row")= company.open
+              td(scope="row")= company.close
+              td(scope="row")= company.high
+              td(scope="row")= company.low
+              td(scope="row")= company.change
+              td(scope="row")= company.marketCap
+              td(scope="row")= company.week52High
+              td(scope="row")= company.week52Low
+              td(scope="row")= company.ytdChange
