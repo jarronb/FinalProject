@@ -4,7 +4,7 @@ html
     meta(charset="utf-8")
     meta(name="viewport", content="width=device-width, initial-scale=1, shrink-to-fit=no")
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm", crossorigin="anonymous")
-  body
+  body(style="height: 100vh")
     header
       nav.navbar.navbar-dark.bg-dark
         a.navbar-brand(href='/') stocks
@@ -20,13 +20,12 @@ html
       include ./partials/flash-msg.pug
       block content
 
-    footer.footer
-      .container(style='margin-top:5%; clear:both')
+    footer.footer.d-flex.mt-5(style="bottom: 10px")
       if user.Name
-        form(method='POST' action='/delete/'+user._id+"?_method=DELETE")
-          button.btn.btn-default.btn-sm.bg-danger.text-white.float-right.mr-5(type='submit')
-           | Delete Accout
         span.text-muted.ml-5 Copyright 2018.
+        form(method='POST' action='/delete/'+user._id+"?_method=DELETE").form-inline.ml-auto
+          button.btn.btn-default.btn-sm.bg-danger.text-white.float-right.mr-5(type='submit')
+           | Delete Account
 
     script(src='https://code.jquery.com/jquery-3.2.1.slim.min.js', integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN', crossorigin='anonymous')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js', integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q', crossorigin='anonymous')
