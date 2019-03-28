@@ -9,11 +9,8 @@ html
       nav.navbar.navbar-dark.bg-dark
         a.navbar-brand(href='/') stocks
         if user.Name
-          #navbarSupportedContent.collapse.navbar-collapse
-            ul.navbar-nav.ml-auto
-              li.nav-item.active
-                a.nav-link(href='/logout')
-                  | Logout 
+          a.nav-link.btn.btn-secondary(href='/logout')
+            | Logout 
 
         span.sr-only (current)
     main(role='main').mx-3
