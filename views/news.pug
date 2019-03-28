@@ -7,7 +7,7 @@ block content
     h4 Search for news by company
       form#search(method="POST" action="/api/news/company", name="search")
         .form-group.row
-          input#name.form-control.col-9(type="text", placeholder='aapl, abc', name='id')
+          input#name.form-control.col-9.ml-2(type="text", placeholder='aapl, abc', name='id')
           button.btn.btn-primary.ml-3.col-2(type='submit') Search
   tbody
     each articles in Article
