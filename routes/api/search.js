@@ -107,6 +107,11 @@ router.post('/stock', function(req, res) {
     if (!jsonBody.Message) {
       var lookupInfo = new Company(jsonBody);
 
+      if (jsonBody.length === 0) {
+        req.flash('error', 'Company not found!');
+        return res.redirect('/api/search/stock');
+      }
+
       lookupInfo.save(function(err) {
         if (err) {
           throw err;
