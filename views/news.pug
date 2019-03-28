@@ -9,12 +9,11 @@ block content
         .form-group.row
           input#name.form-control.col-9.ml-2(type="text", placeholder='aapl, abc', name='id')
           button.btn.btn-primary.ml-3.col-2(type='submit') Search
-  tbody
-    each articles in Article
-      ul(style='list-style:none; padding-left:0;')
-        li.text-muted.mt-5.small= articles.datetime
-        li(style='font-size:28px; font-weight:600')= articles.headline
-        li.text-muted.small(style='float:left; margin-right:10px')= articles.source
-        li.text-muted.small(style='float:left; margin-right:10px') •
-        a.li.text-muted.small(href=articles.url style='text-decoration:underline; clear:left; white-space:nowrap;')= articles.url
-        li(style='clear:left;')= articles.summary
+  each articles in Article
+    ul(style='list-style:none;').d-flex.flex-column
+      li.d-block.mt-5.small= articles.datetime
+      li.d-block(style='font-size:22px; font-weight:600')= articles.headline
+      li.d-block.text-muted.small.my-3(style='margin-right:10px, font-weight:600')= articles.source
+      li.d-block= articles.summary
+      li.d-block.mt-3 View more here: 
+        a.small(href=articles.url style='text-decoration:underline; word-wrap: break-word;')= articles.url
