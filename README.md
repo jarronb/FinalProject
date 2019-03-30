@@ -1,4 +1,4 @@
-# ITMD 565 Fall 2018 - Stock Analyzer App
+# ITMD 562 Fall 2018 - Stock Analyzer App
 
 Application was created by [Jarron Bailey](https://github.com/jarronb), [Abigail Boyer](https://github.com/abigailboyer), [Gowtham Manivela](https://github.com/GowthamManivelan).
 
